@@ -8,22 +8,22 @@ import { Button } from '@/components/ui/button';
 
 import PlacesPage from './PlacesPage';
 import { useAuth } from '../../hooks';
-import { LogOut, Mail, PenSquare, Text } from 'lucide-react';
+import { LogOut, Phone, PenSquare, Text } from 'lucide-react';
 import EditProfileDialog from '@/components/ui/EditProfileDialog';
+import { useTranslation } from 'react-i18next';
 
 const ProfilePage = () => {
   const auth = useAuth();
-  // const { user, logout } = auth;
+  const { user, logout } = auth;
   const [redirect, setRedirect] = useState(null);
 
-  const user = {
-    name : "yassone" , 
-    email : "yassone@gmail.com",
-    picture : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2015%2F12%2F23%2F14%2F56%2Fman-profile-1105761_960_720.jpg&f=1&nofb=1&ipt=0b7b2b37d9fdd70dc964ea09362090e74b30156a7f432b7fef0ed103c62d1007&ipo=images"
-  }
+    const { t, i18n } = useTranslation();
+  
+
 
   let { subpage } = useParams();
-  if (subpage) {
+
+  if (!subpage) {
     subpage = 'profile';
   }
 
@@ -36,14 +36,12 @@ const ProfilePage = () => {
       toast.error(response.message);
     }
   };
+  console.log(subpage)
 
-  // if (!user && !redirect) {
-  //   return <Navigate to={'/login'} />;
-  // }
 
-  // if (redirect) {
-  //   return <Navigate to={redirect} />;
-  // }
+  if (redirect) {
+    return <Navigate to={redirect} />;
+  }
 
   return (
     <div>
@@ -54,12 +52,12 @@ const ProfilePage = () => {
           <div className="flex h-40 w-40 justify-center rounded-full bg-gray-200 p-4  sm:h-72 sm:w-72 md:h-96 md:w-96">
             <Avatar>
               {user ? (
-                <AvatarImage src={user.picture} />
+                <AvatarImage src={user?.picture} />
               ) : (
                 <AvatarImage src="https://res.cloudinary.com/rahul4019/image/upload/v1695133265/pngwing.com_zi4cre.png" className="object-cover"/>
               )}
 
-              <AvatarFallback>{user.name.slice([0], [1])}</AvatarFallback>
+              <AvatarFallback>{user?.name.slice([0], [1])}</AvatarFallback>
             </Avatar>
           </div>
 
@@ -69,15 +67,15 @@ const ProfilePage = () => {
               <div className="flex items-center gap-2">
                 <Text height="18" width="18" />
                 <div className="text-xl">
-                  <span>Name: </span>
-                  <span className="text-gray-600">{user.name}</span>
+                  <span>{t("name")}: </span>
+                  <span className="text-gray-600">{user?.name}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Mail height="18" width="18" />
+                <Phone height="18" width="18" />
                 <div className="text-xl">
-                  <span>Email: </span>
-                  <span className="text-gray-600">{user.email}</span>
+                  <span>{t("phone")}: </span>
+                  <span className="text-gray-600">{user?.phone}</span>
                 </div>
               </div>
               <p></p>
@@ -90,7 +88,7 @@ const ProfilePage = () => {
 
               <Button variant="secondary" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
-                Logout
+                {t("logout")}
               </Button>
             </div>
           </div>

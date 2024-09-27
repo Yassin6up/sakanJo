@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../hooks';
 import SearchBar from './SearchBar';
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar';
-
+import logo from "@/assets/logo.png"
 export const Header = () => {
   const auth = useAuth();
   const location = useLocation();
@@ -45,10 +45,9 @@ export const Header = () => {
         } w-screen max-w-screen-xl`}
       >
         <a href="/" className="flex items-center gap-1">
-          
 
-          <span className="hidden text-2xl font-bold text-red-500 md:block">
-            AqqarJordan.com
+          <span className="text-2xl font-bold text-red-500 md:block">
+            <img src={logo} style={{width : "60px"  , height : "50px"}} />
           </span>
         </a>
 

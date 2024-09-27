@@ -1,13 +1,24 @@
 import React from 'react';
 
 const PlaceImg = ({ place, index = 0, className = null }) => {
-  if (!place.photos?.length) {
+  const photos = place.photos.split(',');
+
+  console.log(photos);
+  console.log(place);
+
+  if (!photos?.length) {
     return '';
   }
   if (!className) {
     className = 'object-cover';
   }
-  return <img src={place.photos[index]} alt="" className={className} />;
+  return (
+    <img
+      src={`https://backend.sakanijo.com/api/images/${place.folderName}/${photos[index]}`}
+      alt=""
+      className={className}
+    />
+  );
 };
 
 export default PlaceImg;

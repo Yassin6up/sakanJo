@@ -16,23 +16,20 @@ import SingleBookedPlace from './pages/SingleBookedPlace';
 import axiosInstance from './utils/axios';
 import { UserProvider } from './providers/UserProvider';
 import { PlaceProvider } from './providers/PlaceProvider';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { getItemFromLocalStorage } from './utils';
 import NotFoundPage from './pages/NotFoundPage';
+import PrivacyPolicy from './pages/Policy';
 
 function App() {
-  useEffect(() => {
-    // set the token on refreshing the website
-    axiosInstance.defaults.headers.common[
-      'Authorization'
-    ] = `Bearer ${getItemFromLocalStorage('token')}`;
-  }, []);
+
 
   return (
       <UserProvider>
         <PlaceProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
+              <Route path="/policy" element={<PrivacyPolicy />} />
+
               <Route index element={<IndexPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
@@ -46,7 +43,6 @@ function App() {
                 path="/account/bookings/:id"
                 element={<SingleBookedPlace />}
               />
-              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
           <ToastContainer autoClose={2000} transition={Slide} />

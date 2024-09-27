@@ -6,9 +6,10 @@ import AddressLink from '../components/ui/AddressLink';
 import BookingDates from '../components/ui/BookingDates';
 import PlaceGallery from '../components/ui/PlaceGallery';
 import Spinner from '../components/ui/Spinner';
-import axiosInstance from '../utils/axios';
-
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 const SingleBookedPlace = () => {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const [booking, setBooking] = useState({});
   const [loading, setLoading] = useState(false);
@@ -16,14 +17,12 @@ const SingleBookedPlace = () => {
   const getBookings = async () => {
     try {
       setLoading(true);
-      const { data } = await axiosInstance.get('/bookings');
-
-      // filter the data to get current booking
-      const filteredBooking = data.booking.filter(
-        (booking) => booking._id === id,
+      const response = await axios.get(
+        `https://backend.sakanijo.com/api/bookings/get/${id}`,
       );
 
-      setBooking(filteredBooking[0]);
+      console.log(response);
+      setBooking(response.data);
     } catch (error) {
       console.log('Error: ', error);
     } finally {
@@ -42,7 +41,7 @@ const SingleBookedPlace = () => {
   return (
     <div>
       <AccountNav />
-      {booking?.place ? (
+      {booking?.place_id ? (
         <div className="p-4">
           <h1 className="text-3xl">{booking?.place?.title}</h1>
 
@@ -53,14 +52,14 @@ const SingleBookedPlace = () => {
           <div className="my-6 flex flex-col items-center justify-between rounded-2xl bg-gray-200 p-6 sm:flex-row">
             <div className=" ">
               <h2 className="mb-4 text-2xl md:text-2xl">
-                Your booking information
+                {t('Your booking information')}
               </h2>
               <BookingDates booking={booking} />
             </div>
             <div className="mt-5 w-full rounded-2xl bg-primary p-6 text-white sm:mt-0 sm:w-auto">
-              <div className="hidden md:block">Total price</div>
+              <div className="hidden md:block"> {t('totalPrice')} </div>
               <div className="flex justify-center text-3xl">
-                <span>₹{booking?.price}</span>
+                <span>JOD{booking?.price}</span>
               </div>
             </div>
           </div>

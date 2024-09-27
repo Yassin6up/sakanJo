@@ -6,24 +6,34 @@ import PlaceImg from '@/components/ui/PlaceImg';
 import BookingDates from '@/components/ui/BookingDates';
 import Spinner from '@/components/ui/Spinner';
 import axiosInstance from '@/utils/axios';
-
+import { useAuth } from '../../hooks/index';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 const BookingsPage = () => {
+  const { t, i18n } = useTranslation();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     const getBookings = async () => {
       try {
-        const { data } = await axiosInstance.get('/bookings');
-        setBookings(data.booking);
+        const { data } = await axios.get(
+          `https://backend.sakanijo.com/api/bookings?costumerId=${user.id}`,
+        );
+        setBookings(data.bookings);
+        console.log(data);
         setLoading(false);
       } catch (error) {
         console.log('Error: ', error);
         setLoading(false);
       }
     };
-    getBookings();
-  }, []);
+
+    if (user) {
+      getBookings();
+    }
+  }, [user]);
 
   if (loading) return <Spinner />;
 
@@ -34,9 +44,9 @@ const BookingsPage = () => {
         {bookings?.length > 0 ? (
           bookings.map((booking) => (
             <Link
-              to={`/account/bookings/${booking._id}`}
+              to={`/account/bookings/${booking.id}`}
               className="mx-4 my-8 flex h-28 gap-4 overflow-hidden rounded-2xl bg-gray-200 md:h-40 lg:mx-0"
-              key={booking._id}
+              key={booking.id}
             >
               <div className="w-2/6 md:w-1/6">
                 {booking?.place?.photos[0] && (
@@ -72,7 +82,7 @@ const BookingsPage = () => {
                         />
                       </svg>
                       <span className="text-xl md:text-2xl">
-                        Total price: ₹{booking.price}
+                        {t('totalPrice')}: JOD{booking.price}
                       </span>
                     </div>
                   </div>
@@ -83,17 +93,15 @@ const BookingsPage = () => {
         ) : (
           <div className="">
             <div className="flex flex-col justify-start">
-              <h1 className="my-6 text-3xl font-semibold">Trips</h1>
+              <h1 className="my-6 text-3xl font-semibold">{t('Bookings')}</h1>
               <hr className="border border-gray-300" />
               <h3 className="pt-6 text-2xl font-semibold">
-                No trips booked... yet!
+                {t('No trips booked... yet!')}
               </h3>
-              <p>
-                Time to dust off you bags and start planning your next adventure
-              </p>
+              <p>{t('Time to book some house')}</p>
               <Link to="/" className="my-4">
                 <div className="flex w-40 justify-center rounded-lg border border-black p-3 text-lg font-semibold hover:bg-gray-50">
-                  Start Searching
+                  {t('Start Searching')}
                 </div>
               </Link>
             </div>
