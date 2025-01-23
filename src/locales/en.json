@@ -1,4 +1,5 @@
 {
+    "app_name" : "Sakani Jo" ,
     "searchPlaceHolder" : "Search" ,
     "searchBtn" : "search"  ,
     "myProfile" : "My Profile" ,
@@ -12,7 +13,7 @@
     "night" : "night" ,
     "Your booking information" : "Your booking information" ,
     "Show all photos" : "Show all photos" ,
-    "Add new place" : "Add new Ad" ,
+    "Add new place" : "Add New Ad" ,
     "If you want to set deferent of types about your place , please download our app in app store or play store" : "If you want to set deferent of types about your place , please download our app in app store or play store",
     "Type"  : "Type"  ,
     "Title": "Title" ,
@@ -32,9 +33,9 @@
     "Price per night" : "Price per night"  ,
     "Max no. of guests" : "Max no. of guests" ,
     "Save" : "Save" , 
-    "Buy": "Buy" , 
-    "Rent" : "Rent" ,
-    "Booking" : "Booking" ,
+    "buy": "Buy" , 
+    "rent" : "Rent" ,
+    "booking" : "Booking" ,
     "Land" : "Land" ,
     "farm" : "Farm" ,
     "Home" : "Home"   ,
@@ -135,7 +136,29 @@
   "select_or_drag_some_pics_t": "Select or drag some pics",
   "product_name_t": "Product Name",
 
-  "product_type_t": "Product Type"
+  "product_type_t": "Product Type",
 
+  "please_fill_all_inputs": "Please fill all inputs",
+  "invalid_phone_number": "Invalid phone number",
 
+  "bathroom": "Bathroom",
+  "kitchen": "Kitchen",
+  "rooms": "Rooms",
+  "stages": "Stages",
+  "reactions": "Reactions",
+  "posted_by": "Posted by",
+  "related_ads": "Related Ads",
+  "reviews": "Reviews",
+  "review": "Review",
+
+  "sponsored": "Sponsored",
+
+  "about_p1": "Welcome to Sakani Jo, your trusted platform for finding and listing properties. Whether you are looking to buy, rent, or book a property, or showcase land, farms, or apartments, Sakani connects you with a wide audience, simplifying your property journey.",
+  "about_p2": "At Sakani Jo, we believe in making property transactions more accessible and efficient. Our platform offers intuitive tools to advertise and search for properties, tailored to meet your unique needs.",
+  "about_p3": "Start your journey with us today and experience the convenience of Sakani Jo.",
+
+  "contact_p1": "Have any questions or need assistance? We are here to help! Feel free to reach out to us through the form below or use the provided contact details.",
+  "email": "Email",
+  "message": "Message",
+  "send": "Send"
 }
