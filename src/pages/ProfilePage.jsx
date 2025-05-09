@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { useMemo, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import AccountNav from '@/components/ui/AccountNav';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 
-import PlacesPage from './PlacesPage';
-import { useAuth } from '../../hooks';
-import { LogOut, Phone, PenSquare, Text } from 'lucide-react';
 import EditProfileDialog from '@/components/ui/EditProfileDialog';
+import { LogOut, Phone, Text } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../hooks';
+import PlacesPage from './PlacesPage';
+import ProfileImageUpdateDialog from '@/components/ProfileImageUpdateDialog';
 
 const ProfilePage = () => {
   const auth = useAuth();
   const { user, logout } = auth;
   const [redirect, setRedirect] = useState(null);
 
-    const { t, i18n } = useTranslation();
-  
+  const { t } = useTranslation();
 
+  const userPictureLink = useMemo(() => {
+    if (!user) {
+      return null;
+    }
+
+    const { picture_url, image_name } = user;
+
+    if (picture_url === 100) {
+      return `https://backend.sakanijo.com/user/profile-picture/${image_name}`;
+    }
+
+    return `/assets/publisherUsers/${picture_url}.png`;
+  }, [user]);
 
   let { subpage } = useParams();
 
@@ -37,7 +50,6 @@ const ProfilePage = () => {
     }
   };
 
-
   if (redirect) {
     return <Navigate to={redirect} />;
   }
@@ -48,15 +60,27 @@ const ProfilePage = () => {
       {subpage === 'profile' && (
         <div className="m-4 flex flex-col items-center gap-8 rounded-[10px]  p-4 sm:h-1/5 sm:flex-row sm:items-stretch lg:gap-28 lg:pl-32 lg:pr-20">
           {/* avatar */}
-          <div className="flex h-40 w-40 justify-center rounded-full bg-gray-200 p-4  sm:h-72 sm:w-72 md:h-96 md:w-96">
+          <div className="relative flex h-40 w-40 justify-center overflow-clip rounded-full bg-gray-200 p-4  sm:h-72 sm:w-72 md:h-96 md:w-96">
+            <ProfileImageUpdateDialog
+              userId={user?.id}
+              triggerBtnProps={{
+                className: 'absolute z-10 bottom-0 w-full h-1/3 opacity-80',
+                variant: 'ghost',
+              }}
+            />
             <Avatar>
               {user ? (
-                <AvatarImage src={user?.picture} />
+                <AvatarImage src={userPictureLink} />
               ) : (
-                <AvatarImage src="https://res.cloudinary.com/rahul4019/image/upload/v1695133265/pngwing.com_zi4cre.png" className="object-cover"/>
+                <AvatarImage
+                  src="https://res.cloudinary.com/rahul4019/image/upload/v1695133265/pngwing.com_zi4cre.png"
+                  className="object-cover"
+                />
               )}
 
-              <AvatarFallback className="text-6xl md:text-9xl">{user?.name.slice([0], [1])}</AvatarFallback>
+              <AvatarFallback className="text-6xl md:text-9xl">
+                {user?.name.slice([0], [1])}
+              </AvatarFallback>
             </Avatar>
           </div>
 
@@ -66,14 +90,14 @@ const ProfilePage = () => {
               <div className="flex items-center gap-2">
                 <Text height="18" width="18" />
                 <div className="text-xl">
-                  <span>{t("name")}: </span>
+                  <span>{t('name')}: </span>
                   <span className="text-gray-600">{user?.name}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Phone height="18" width="18" />
                 <div className="text-xl">
-                  <span>{t("phone")}: </span>
+                  <span>{t('phone')}: </span>
                   <span className="text-gray-600">{user?.phone}</span>
                 </div>
               </div>
@@ -87,7 +111,7 @@ const ProfilePage = () => {
 
               <Button variant="secondary" onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
-                {t("logout")}
+                {t('logout')}
               </Button>
             </div>
           </div>

@@ -27,10 +27,6 @@ const LoginPage = () => {
     }
   };
 
-  const getCombinedValue = () => {
-    return Object.values(inputValues).join('');
-  };
-
   useEffect(() => {}, []);
 
   const sendOtp = () => {
@@ -50,6 +46,10 @@ const LoginPage = () => {
           if (response.data.message) {
             toast.success(response.data.message);
             if (response.data.user && response.data.user.session_token) {
+              
+              // remove password from user object
+              response.data.user.password = undefined;
+              
               localStorage.setItem('user', JSON.stringify(response.data.user));
               localStorage.setItem('token', response.data.user.session_token);
               setRedirect(true);
@@ -174,6 +174,13 @@ const LoginPage = () => {
             <button className="primary my-4">{t('login_button')}</button>
             {loading ? <Spinner /> : null}
           </form>
+
+          <Link
+            className="py-2 text-gray-500 hover:underline"
+            to={'/forgot-password'}
+          >
+            {t('forgot_password')}
+          </Link>
 
           <div className="mb-4 flex w-full items-center gap-4">
             <div className="h-0 w-1/2 border-[1px]"></div>
